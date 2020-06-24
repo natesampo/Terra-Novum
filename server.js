@@ -17,7 +17,7 @@ function getTable(table, func) {
 		'host': 'content.dropboxapi.com',
 		'path': '/2/files/list_folder',
 		'method': 'GET',
-		'headers': {'Content-Type': 'application/octet-stream',
+		'headers': {'Content-Type': 'application/json',
 					'Authorization': 'Bearer ' + accessToken + 'G',
 					'Dropbox-API-Arg': '{\"path\": \"/\",\"recursive\": false,\"include_media_info\": false,\"include_deleted\": false,\"include_has_explicit_shared_members\": false,\"include_mounted_folders\": true,\"include_non_downloadable_files\": true\}'}
 	};

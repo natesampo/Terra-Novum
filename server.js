@@ -87,7 +87,6 @@ http.createServer(function(request, response) {
 
 						html = data;
 						if(request.headers.cookie && request.headers.cookie.length > 0) {
-							console.log('ughhh');
 							const cookies = getCookies(request.headers.cookie);
 
 							if(cookies['terranovumusername'] && cookies['terranovumauth']) {
@@ -116,12 +115,13 @@ http.createServer(function(request, response) {
 									return response.end(html);
 								});
 							}
-						}
+						} else {
 
 						response.writeHead(200, {'Content-Type': 'text/html',
 												'Access-Control-Allow-Origin': 'herokuapp.com',
 												'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
 						return response.end(html);
+					}
 					});
 					break;
 				case '/css.css':

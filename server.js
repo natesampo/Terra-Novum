@@ -24,6 +24,7 @@ function getTable(table, func) {
 				func(data);
 			});
 		} else {
+			console.log(response);
 			console.log('Dropbox request failed with status: ' + response.statusCode);
 		}
 	});
@@ -112,7 +113,6 @@ http.createServer((request, response) => {
 					});
 					request.on('end', function() {
 						getTable('users', function(data) {
-							console.log('wow');
 							let parsed = JSON.parse(data);
 							const name = body.split('&')[0].split('=')[1];
 							let found = false;

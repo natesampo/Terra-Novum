@@ -46,7 +46,7 @@ function saveTable(table, data, func) {
 		'method': 'POST',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/spacegame/' + table + '\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false\}'};
+					'Dropbox-API-Arg': '{\"path\": \"/spacegame/' + table + '\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false\}'}
 	};
 
 	const req = https.request(options, function(response) {

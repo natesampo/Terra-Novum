@@ -11,13 +11,10 @@ function getTable(table, func) {
 		'method': 'GET',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/' + table + '\"}'}
+					'Dropbox-API-Arg': '{\"path\": \"/spacegame/' + table + '\"}'}
 	};
 
 	const req = https.request(options, function(response) {
-		response.on('data', function(chunk) {
-			console.log('BODY: ' + chunk);
-		});
 		if(response.statusCode === 200) {
 			let data = '';
 			response.on('data', function(chunk) {
@@ -99,6 +96,47 @@ http.createServer((request, response) => {
 			break;
 		case 'POST':
 			switch(request.url) {
+				case '/login':
+					const {headers, method, url} = request;
+					let body = '';
+					request.on('error', function(err) {
+						console.log(err);
+						response.statusCode = 400;
+						response.end();
+					});
+					request.on('data', function(data) {
+						body += data;
+						if (body.length > 1e6) {
+							request.connection.destroy();
+						}
+					});
+					request.on('end', function() {
+						getTable('users', function(data) {
+							let parsed = JSON.parse(data);
+							const name = body.split('&')[0].split('=')[1];
+							const pass = body.split('&')[1].split('=')[1];
+							let found = false;
+							for(let i in parsed) {
+								if(name == parsed[i]['user']) {
+									if(pass == parsed[i]['pass']) {
+										const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
+										parsed[i]['cookie'] = cookie;
+										saveTable('users', JSON.stringify(parsed), function() {
+											response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
+																	'Access-Control-Allow-Origin': 'spacegametwo.herokuapp.com',
+																	'Set-Cookie': ['username=' + name, 'spacegameauth=' + cookie]});
+											response.end();
+										});
+									} else {
+										response.statusCode = 401;
+										response.end();
+									}
+									break;
+								}
+							}
+						});
+					});
+					break;
 				case '/register':
 					const {headers, method, url} = request;
 					let body = '';
@@ -117,6 +155,7 @@ http.createServer((request, response) => {
 						getTable('users', function(data) {
 							let parsed = JSON.parse(data);
 							const name = body.split('&')[0].split('=')[1];
+							const pass = body.split('&')[1].split('=')[1];
 							let found = false;
 							for(let i in parsed) {
 								if(name == parsed[i]['user']) {
@@ -130,7 +169,7 @@ http.createServer((request, response) => {
 								response.end();
 							} else {
 								const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
-								parsed.push({'user': name, 'pass': body.split('&')[1].split('=')[1], 'games': [], 'cookie': cookie});
+								parsed.push({'user': name, 'pass': pass, 'games': [], 'cookie': cookie});
 								saveTable('users', JSON.stringify(parsed), function() {
 									response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
 															'Access-Control-Allow-Origin': 'spacegametwo.herokuapp.com',

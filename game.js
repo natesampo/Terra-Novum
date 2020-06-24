@@ -38,6 +38,28 @@ function displayGames(idToHide) {
 	document.getElementById('games').style.width = '30%';
 }
 
+function login() {
+	const userElem = document.getElementById('usernamelogin');
+	const passElem = document.getElementById('passwordlogin');
+
+	const req = new XMLHttpRequest();
+	req.withCredentials = true;
+	req.open('POST', '/login', true);
+	req.onreadystatechange = function() {
+		if(this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+			userElem.value = '';
+			passElem.value = '';
+			confElem.value = '';
+			displayGames('login');
+		} else if(this.status === 401) {
+			alert('Incorrect username or password');
+		} else {
+			alert('Uhhh something is wrong');
+		}
+	}
+	req.send('user=' + encodeURIComponent(userElem.value) + '&pass=' + encodeURIComponent(passElem.value));
+}
+
 function register() {
 	const userElem = document.getElementById('usernamereg');
 	const passElem = document.getElementById('passwordreg');
@@ -79,6 +101,8 @@ function register() {
 			displayGames('login');
 		} else if(this.status === 409) {
 			alert('Username Already Taken');
+		} else {
+			alert('Uhhh something is wrong');
 		}
 	}
 	req.send('user=' + encodeURIComponent(userElem.value) + '&pass=' + encodeURIComponent(passElem.value));

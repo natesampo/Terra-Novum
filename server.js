@@ -86,7 +86,7 @@ http.createServer((request, response) => {
 					})
 					break;
 				case '/games':
-					request.headers.cookie;
+					//request.headers.cookie;
 					break;
 				default:
 					response.statusCode = 404;
@@ -97,7 +97,6 @@ http.createServer((request, response) => {
 		case 'POST':
 			switch(request.url) {
 				case '/login':
-					const {headers, method, url} = request;
 					let body = '';
 					request.on('error', function(err) {
 						console.log(err);
@@ -138,7 +137,6 @@ http.createServer((request, response) => {
 					});
 					break;
 				case '/register':
-					const {headers, method, url} = request;
 					let body = '';
 					request.on('error', function(err) {
 						console.log(err);

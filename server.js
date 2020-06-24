@@ -11,7 +11,7 @@ function getTable(table, func) {
 		'method': 'GET',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/' + table + '\"}'}
+					'Dropbox-API-Arg': '{\"path\": \"/spacegame' + table + '\"}'}
 	};
 
 	const req = https.request(options, function(response) {
@@ -24,7 +24,7 @@ function getTable(table, func) {
 				func(data);
 			});
 		} else {
-			console.log('Request failed with status: ' + response.statusCode);
+			console.log('Dropbox request failed with status: ' + response.statusCode);
 		}
 	});
 	req.end();
@@ -37,14 +37,14 @@ function saveTable(table, data, func) {
 		'method': 'POST',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/' + table + '\"}'}
+					'Dropbox-API-Arg': '{\"path\": \"/spacegame' + table + '\"}'}
 	};
 
 	const req = https.request(options, function(response) {
 		if(response.statusCode === 200) {
 			func();
 		} else {
-			console.log('Request failed with status: ' + response.statusCode);
+			console.log('Dropbox request failed with status: ' + response.statusCode);
 		}
 	});
 	req.write(data);
@@ -111,7 +111,6 @@ http.createServer((request, response) => {
 						}
 					});
 					request.on('end', function() {
-						console.log('wtf');
 						getTable('users', function(data) {
 							let parsed = JSON.parse(data);
 							const name = body.split('&')[0].split('=')[1];

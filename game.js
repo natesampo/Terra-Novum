@@ -17,7 +17,7 @@ function getCookie(cookieName) {
 }
 
 function displayLogin(idToHide) {
-	document.getElementById('login').style.display = 'inline-block';
+	document.getElementById('login').style.display = 'block';
 	document.getElementById('accountdisplay').style.display = 'none';
 	document.getElementById('accountname').innerHTML = '';
 	document.getElementById(idToHide).style.display = 'none';
@@ -31,7 +31,7 @@ function displayGames(idToHide) {
 	document.getElementById(idToHide).style.display = 'none';
 	document.getElementById('accountdisplay').style.display = 'inline-block';
 	document.getElementById('accountname').innerHTML = decodeURIComponent(getCookie('username'));
-	document.getElementById('games').style.display = 'inline-block';
+	document.getElementById('games').style.display = 'block';
 	document.getElementById('games').style.border = '1px solid black';
 	document.getElementById('games').style.margin = '0 auto';
 	document.getElementById('games').style['margin-top'] = '10%';

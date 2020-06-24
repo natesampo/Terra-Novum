@@ -15,6 +15,9 @@ function getTable(table, func) {
 	};
 
 	const req = https.request(options, function(response) {
+		response.on('data', function(chunk) {
+			console.log('BODY: ' + chunk);
+		});
 		if(response.statusCode === 200) {
 			let data = '';
 			response.on('data', function(chunk) {
@@ -24,7 +27,6 @@ function getTable(table, func) {
 				func(data);
 			});
 		} else {
-			console.log(response);
 			console.log('Dropbox request failed with status: ' + response.statusCode);
 		}
 	});

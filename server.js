@@ -213,6 +213,7 @@ http.createServer(function(request, response) {
 						getTable('users', function(data) {
 							let parsed = JSON.parse(data);
 							const params = getParams(body);
+							console.log(params);
 							if(params['name'] && params['pass']) {
 								let name = params['name'];
 								let pass = params['pass'];

@@ -86,9 +86,10 @@ http.createServer(function(request, response) {
 						}
 
 						html = data;
-						console.log(request.headers.cookie);
+						console.log(request.headers.cookie.length);
 						if(request.headers.cookie && request.headers.cookie.length > 0) {
 							let cookies = getCookies(request.headers.cookie);
+							console.log(cookies);
 
 							if(cookies['terranovumusername'] && cookies['terranovumauth']) {
 								let name = cookies['terranovumusername'];
@@ -216,7 +217,6 @@ http.createServer(function(request, response) {
 						getTable('users', function(data) {
 							let parsed = JSON.parse(data);
 							const params = getParams(body);
-							console.log(params);
 							if(params['user'] && params['pass']) {
 								let name = params['user'];
 								let pass = params['pass'];

@@ -21,8 +21,8 @@ function getTable(table, func) {
 			response.on('data', function(chunk) {
 				data += chunk;
 			});
-
 			response.on('end', function() {
+				console.log(data);
 				func(data);
 			});
 		} else {
@@ -105,14 +105,15 @@ http.createServer((request, response) => {
 						console.log(err);
 						response.statusCode = 400;
 						response.end();
-					}).on('data', function(data) {
+					});
+					request.on('data', function(data) {
 						body += data;
 						if (body.length > 1e6) {
 							request.connection.destroy();
 						}
-					}).on('end', function() {
+					});
+					request.on('end', function() {
 						getTable('users', function(data) {
-							console.log(data);
 							const parsed = JSON.parse(data);
 							const name = body.split('&')[0].split('=')[1];
 							let found = false;

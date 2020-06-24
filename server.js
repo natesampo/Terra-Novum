@@ -108,7 +108,7 @@ http.createServer(function(request, response) {
 
 									response.writeHeader(200, {'Content-Type': 'text/html'});
 									return response.end();
-								}
+								});
 							}
 						}
 

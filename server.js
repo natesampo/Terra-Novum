@@ -87,11 +87,12 @@ http.createServer(function(request, response) {
 
 						html = data;
 						if(request.headers.cookie && request.headers.cookie.length > 0) {
-							let cookies = getCookies(request.headers.cookie);
+							console.log('ughhh');
+							const cookies = getCookies(request.headers.cookie);
 
 							if(cookies['terranovumusername'] && cookies['terranovumauth']) {
-								let name = cookies['terranovumusername'];
-								let cookie = cookies['terranovumauth'];
+								const name = cookies['terranovumusername'];
+								const cookie = cookies['terranovumauth'];
 								getTable('users', function(data) {
 									let parsed = JSON.parse(data);
 									for(let i in parsed) {
@@ -111,7 +112,7 @@ http.createServer(function(request, response) {
 
 									response.writeHead(200, {'Content-Type': 'text/html',
 															'Access-Control-Allow-Origin': 'herokuapp.com',
-															'Set-Cookie': ['terranovumusername=FUCK', 'terranovumauth=FUCK']});
+															'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
 									return response.end(html);
 								});
 							}
@@ -119,7 +120,7 @@ http.createServer(function(request, response) {
 
 						response.writeHead(200, {'Content-Type': 'text/html',
 												'Access-Control-Allow-Origin': 'herokuapp.com',
-												'Set-Cookie': ['terranovumusername=as', 'terranovumauth=as']});
+												'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
 						return response.end(html);
 					});
 					break;

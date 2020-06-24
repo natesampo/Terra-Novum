@@ -6,9 +6,9 @@
 
 #login {
 	border: 1px solid black;
-	top: 10%;
-	width: 30%;
 	margin: auto;
+	margin-top: 10%;
+	width: 30%;
 }
 
 .loginforms {

@@ -123,6 +123,7 @@ http.createServer((request, response) => {
 							}
 
 							if(found) {
+								console.log('wtf');
 								response.statusCode = 409;
 								response.end();
 							} else {

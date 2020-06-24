@@ -79,40 +79,42 @@ http.createServer(function(request, response) {
 		case 'GET':
 			switch(request.url) {
 				case '/':
-					if(request.headers.cookie && request.headers.cookie.length > 0) {
-						let cookies = getCookies(request.headers.cookie);
-
-						if(cookies['terranovumusername'] && cookies['terranovumauth']) {
-							getTable('users', function(data) {
-								let parsed = JSON.parse(data);
-								let found = false;
-								for(let i in parsed) {
-									if(cookies['terranovumusername'] == parsed[i]['user']) {
-										if(cookies['terranovumauth'] == parsed[i]['cookie']) {
-											const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
-											parsed[i]['cookie'] = cookie;
-											saveTable('users', JSON.stringify(parsed), function() {
-												response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
-																		'Access-Control-Allow-Origin': 'herokuapp.com',
-																		'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
-												return response.end();
-											});
-										}
-										break;
-									}
-								}
-							}
-						}
-					}
-
 					fs.readFile('index.html', function(err, data) {
 						if(err) {
 							console.log(err);
 						}
-						response.writeHeader(200, {'Content-Type': 'text/html'});
 						response.write(data);
+
+						if(request.headers.cookie && request.headers.cookie.length > 0) {
+							let cookies = getCookies(request.headers.cookie);
+
+							if(cookies['terranovumusername'] && cookies['terranovumauth']) {
+								getTable('users', function(data) {
+									let parsed = JSON.parse(data);
+									for(let i in parsed) {
+										if(cookies['terranovumusername'] == parsed[i]['user']) {
+											if(cookies['terranovumauth'] == parsed[i]['cookie']) {
+												const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
+												parsed[i]['cookie'] = cookie;
+												saveTable('users', JSON.stringify(parsed), function() {});
+												response.writeHead(200, {'Content-Type': 'text/html',
+																		'Access-Control-Allow-Origin': 'herokuapp.com',
+																		'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
+												return response.end();
+											}
+											break;
+										}
+									}
+
+									response.writeHeader(200, {'Content-Type': 'text/html'});
+									return response.end();
+								}
+							}
+						}
+
+						response.writeHeader(200, {'Content-Type': 'text/html'});
 						return response.end();
-					})
+					});
 					break;
 				case '/css.css':
 					fs.readFile('css.css', function(err, data) {
@@ -135,7 +137,6 @@ http.createServer(function(request, response) {
 					})
 					break;
 				case '/games':
-					//request.headers.cookie;
 					break;
 				default:
 					response.statusCode = 404;
@@ -169,12 +170,11 @@ http.createServer(function(request, response) {
 										if(pass == parsed[i]['pass']) {
 											const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
 											parsed[i]['cookie'] = cookie;
-											saveTable('users', JSON.stringify(parsed), function() {
-												response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
-																		'Access-Control-Allow-Origin': 'herokuapp.com',
-																		'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
-												return response.end();
-											});
+											saveTable('users', JSON.stringify(parsed), function() {});
+											response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
+																	'Access-Control-Allow-Origin': 'herokuapp.com',
+																	'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
+											return response.end();
 										} else {
 											response.statusCode = 401;
 											return response.end();
@@ -208,27 +208,20 @@ http.createServer(function(request, response) {
 							if(params['name'] && params['pass']) {
 								let name = params['name'];
 								let pass = params['pass'];
-								let found = false;
 								for(let i in parsed) {
 									if(name == parsed[i]['user']) {
-										found = true;
-										break;
+										response.statusCode = 409;
+										return response.end();
 									}
 								}
 
-								if(found) {
-									response.statusCode = 409;
-									return response.end();
-								} else {
-									const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
-									parsed.push({'user': name, 'pass': pass, 'games': [], 'cookie': cookie});
-									saveTable('users', JSON.stringify(parsed), function() {
-										response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
-																'Access-Control-Allow-Origin': 'herokuapp.com',
-																'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
-										return response.end();
-									});
-								}
+								const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
+								parsed.push({'user': name, 'pass': pass, 'games': [], 'cookie': cookie});
+								saveTable('users', JSON.stringify(parsed), function() {});
+								response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
+														'Access-Control-Allow-Origin': 'herokuapp.com',
+														'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
+								return response.end();
 							} else {
 								response.statusCode = 400;
 								return response.end();

@@ -1,19 +1,15 @@
 const usernameMaxLength = 16;
 const passwordMaxLength = 32;
 
-function getCookie(cookieName) {
-	const index = document.cookie.indexOf(cookieName);
+function getCookies() {
+	let cookies = {},
 
-	if(index == -1) {
-		return null;
-	}
+	document.cookie.split(';').forEach(function(cookie) {
+		var parts = cookie.split('=');
+		cookies[parts.shift().trim()] = decodeURIComponent(parts.join('='));
+	});
 
-	let tempString = document.cookie;
-	if(index < document.cookie.indexOf(';')) {
-		tempString = document.cookie.split(';')[0];
-	}
-
-	return tempString.substring(index + cookieName.length + 1);
+	return cookies;
 }
 
 function displayLogin(idToHide) {
@@ -30,7 +26,7 @@ function displayLogin(idToHide) {
 function displayGames(idToHide) {
 	document.getElementById(idToHide).style.display = 'none';
 	document.getElementById('accountdisplay').style.display = 'inline-block';
-	document.getElementById('accountname').innerHTML = decodeURIComponent(getCookie('terranovumusername'));
+	document.getElementById('accountname').innerHTML = getCookies['terranovumusername'];
 	document.getElementById('games').style.display = 'block';
 	document.getElementById('games').style.border = '1px solid black';
 	document.getElementById('games').style.margin = '0 auto';

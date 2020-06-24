@@ -22,7 +22,7 @@ function displayLogin(idToHide) {
 	document.getElementById('accountname').innerHTML = '';
 	document.getElementById(idToHide).style.display = 'none';
 	document.getElementById('login').style.border = '1px solid black';
-	document.getElementById('login').style.margin = 'auto';
+	document.getElementById('login').style.margin = '0 auto';
 	document.getElementById('login').style['margin-top'] = '10%';
 	document.getElementById('login').style.width = '30%';
 }
@@ -33,7 +33,7 @@ function displayGames(idToHide) {
 	document.getElementById('accountname').innerHTML = decodeURIComponent(getCookie('username'));
 	document.getElementById('games').style.display = 'inline-block';
 	document.getElementById('games').style.border = '1px solid black';
-	document.getElementById('games').style.margin = 'auto';
+	document.getElementById('games').style.margin = '0 auto';
 	document.getElementById('games').style['margin-top'] = '10%';
 	document.getElementById('games').style.width = '30%';
 }

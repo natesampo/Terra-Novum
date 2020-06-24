@@ -94,39 +94,34 @@ http.createServer(function(request, response) {
 								let cookie = cookies['terranovumauth'];
 								getTable('users', function(data) {
 									let parsed = JSON.parse(data);
-									console.log('Parsed ' + parsed);
 									for(let i in parsed) {
 										if(name == parsed[i]['user']) {
-											console.log('Name ' + name);
-											console.log('Cookie ' + cookie);
-											console.log('Stored cookie ' + parsed[i]['cookie']);
-											console.log('Equals? ' + (cookie == parsed[i]['cookie']));
 											if(cookie == parsed[i]['cookie']) {
-												console.log('wtf');
 												const newCookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
 												parsed[i]['cookie'] = newCookie;
 												saveTable('users', JSON.stringify(parsed), function() {});
 												response.writeHead(200, {'Content-Type': 'text/html',
 																		'Access-Control-Allow-Origin': 'herokuapp.com',
 																		'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + newCookie]});
-												console.log(response);
 												return response.end(html);
 											}
 											break;
 										}
 									}
 
-									/*response.writeHead(200, {'Content-Type': 'text/html',
+									console.log('1');
+									response.writeHead(200, {'Content-Type': 'text/html',
 															'Access-Control-Allow-Origin': 'herokuapp.com',
-															'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});*/
+															'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
 									return response.end(html);
 								});
 							}
 						}
 
-						/*response.writeHead(200, {'Content-Type': 'text/html',
+						console.log('2');
+						response.writeHead(200, {'Content-Type': 'text/html',
 												'Access-Control-Allow-Origin': 'herokuapp.com',
-												'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});*/
+												'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
 						return response.end(html);
 					});
 					break;

@@ -54,7 +54,7 @@ function saveTable(table, data, func) {
 function getCookies(req) {
 	let cookies = {},
 
-	req.split(';').forEach(function(cookie) {
+	req && req.split(';').forEach(function(cookie) {
 		var parts = cookie.split('=');
 		cookies[parts.shift().trim()] = decodeURIComponent(parts.join('='));
 	});

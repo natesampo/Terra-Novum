@@ -111,6 +111,7 @@ http.createServer((request, response) => {
 						}
 					});
 					request.on('end', function() {
+						console.log('wtf');
 						getTable('users', function(data) {
 							let parsed = JSON.parse(data);
 							const name = body.split('&')[0].split('=')[1];
@@ -123,7 +124,6 @@ http.createServer((request, response) => {
 							}
 
 							if(found) {
-								console.log('wtf');
 								response.statusCode = 409;
 								response.end();
 							} else {

@@ -26,7 +26,7 @@ function displayLogin(idToHide) {
 function displayGames(idToHide) {
 	document.getElementById(idToHide).style.display = 'none';
 	document.getElementById('accountdisplay').style.display = 'inline-block';
-	document.getElementById('accountname').innerHTML = getCookies['terranovumusername'];
+	document.getElementById('accountname').innerHTML = getCookies()['terranovumusername'];
 	document.getElementById('games').style.display = 'block';
 	document.getElementById('games').style.border = '1px solid black';
 	document.getElementById('games').style.margin = '0 auto';

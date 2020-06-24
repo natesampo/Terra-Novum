@@ -112,7 +112,7 @@ http.createServer((request, response) => {
 						}
 					}).on('end', function() {
 						getTable('users', function(data) {
-							console.log('data');
+							console.log(data);
 							const parsed = JSON.parse(data);
 							const name = body.split('&')[0].split('=')[1];
 							let found = false;

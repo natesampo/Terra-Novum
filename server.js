@@ -108,13 +108,17 @@ http.createServer(function(request, response) {
 										}
 									}
 
-									response.writeHeader(200, {'Content-Type': 'text/html'});
+									response.writeHead(200, {'Content-Type': 'text/html',
+															'Access-Control-Allow-Origin': 'herokuapp.com',
+															'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
 									return response.end();
 								});
 							}
 						}
 
-						response.writeHeader(200, {'Content-Type': 'text/html'});
+						response.writeHead(200, {'Content-Type': 'text/html',
+												'Access-Control-Allow-Origin': 'herokuapp.com',
+												'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
 						return response.end();
 					});
 					break;
@@ -123,7 +127,6 @@ http.createServer(function(request, response) {
 						if(err) {
 							console.log(err);
 						}
-						console.log(data);
 						response.writeHeader(200, {'Content-Type': 'text/css'});
 						response.write(data);
 						return response.end();

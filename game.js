@@ -2,7 +2,7 @@ const usernameMaxLength = 16;
 const passwordMaxLength = 32;
 
 function getCookies() {
-	let cookies = {},
+	let cookies = {};
 
 	document.cookie.split(';').forEach(function(cookie) {
 		var parts = cookie.split('=');

@@ -52,9 +52,9 @@ function saveTable(table, data, func) {
 }
 
 function getCookies(req) {
-	let cookies = {},
+	let cookies = {};
 
-	req && req.split(';').forEach(function(cookie) {
+	req.split(';').forEach(function(cookie) {
 		var parts = cookie.split('=');
 		cookies[parts.shift().trim()] = decodeURIComponent(parts.join('='));
 	});

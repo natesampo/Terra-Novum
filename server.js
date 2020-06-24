@@ -170,8 +170,8 @@ http.createServer(function(request, response) {
 						getTable('users', function(data) {
 							let parsed = JSON.parse(data);
 							const params = getParams(body);
-							if(params['name'] && params['pass']) {
-								let name = params['name'];
+							if(params['user'] && params['pass']) {
+								let name = params['user'];
 								let pass = params['pass'];
 								for(let i in parsed) {
 									if(name == parsed[i]['user']) {
@@ -214,8 +214,8 @@ http.createServer(function(request, response) {
 							let parsed = JSON.parse(data);
 							const params = getParams(body);
 							console.log(params);
-							if(params['name'] && params['pass']) {
-								let name = params['name'];
+							if(params['user'] && params['pass']) {
+								let name = params['user'];
 								let pass = params['pass'];
 								for(let i in parsed) {
 									if(name == parsed[i]['user']) {

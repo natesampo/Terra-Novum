@@ -100,7 +100,9 @@ http.createServer(function(request, response) {
 											console.log('Name ' + name);
 											console.log('Cookie ' + cookie);
 											console.log('Stored cookie ' + parsed[i]['cookie']);
+											console.log('Equals? ' + (cookie == parsed[i]['cookie']));
 											if(cookie == parsed[i]['cookie']) {
+												console.log('wtf');
 												const newCookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
 												parsed[i]['cookie'] = newCookie;
 												saveTable('users', JSON.stringify(parsed), function() {});

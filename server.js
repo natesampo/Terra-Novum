@@ -122,8 +122,8 @@ http.createServer((request, response) => {
 										parsed[i]['cookie'] = cookie;
 										saveTable('users', JSON.stringify(parsed), function() {
 											response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
-																	'Access-Control-Allow-Origin': 'spacegametwo.herokuapp.com',
-																	'Set-Cookie': ['username=' + name, 'spacegameauth=' + cookie]});
+																	'Access-Control-Allow-Origin': 'herokuapp.com',
+																	'Set-Cookie': ['username=' + name, 'terranovumauth=' + cookie]});
 											response.end();
 										});
 									} else {
@@ -169,8 +169,8 @@ http.createServer((request, response) => {
 								parsed.push({'user': name, 'pass': pass, 'games': [], 'cookie': cookie});
 								saveTable('users', JSON.stringify(parsed), function() {
 									response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
-															'Access-Control-Allow-Origin': 'spacegametwo.herokuapp.com',
-															'Set-Cookie': ['username=' + name, 'spacegameauth=' + cookie]});
+															'Access-Control-Allow-Origin': 'herokuapp.com',
+															'Set-Cookie': ['username=' + name, 'terranovumauth=' + cookie]});
 									response.end();
 								});
 							}

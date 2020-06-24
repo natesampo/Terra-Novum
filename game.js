@@ -46,15 +46,17 @@ function login() {
 	req.withCredentials = true;
 	req.open('POST', '/login', true);
 	req.onreadystatechange = function() {
-		if(this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-			userElem.value = '';
-			passElem.value = '';
-			confElem.value = '';
-			displayGames('login');
-		} else if(this.status === 401) {
-			alert('Incorrect username or password');
-		} else {
-			alert('Uhhh something is wrong');
+		if(this.readyState === XMLHttpRequest.DONE) {
+			if(this.status === 200) {
+				userElem.value = '';
+				passElem.value = '';
+				confElem.value = '';
+				displayGames('login');
+			} else if(this.status === 401) {
+				alert('Incorrect username or password');
+			} else {
+				alert('Uhhh something is wrong');
+			}
 		}
 	}
 	req.send('user=' + encodeURIComponent(userElem.value) + '&pass=' + encodeURIComponent(passElem.value));
@@ -94,15 +96,17 @@ function register() {
 	req.withCredentials = true;
 	req.open('POST', '/register', true);
 	req.onreadystatechange = function() {
-		if(this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-			userElem.value = '';
-			passElem.value = '';
-			confElem.value = '';
-			displayGames('login');
-		} else if(this.status === 409) {
-			alert('Username Already Taken');
-		} else {
-			alert('Uhhh something is wrong');
+		if(this.readyState === XMLHttpRequest.DONE) {
+			if(this.status === 200) {
+				userElem.value = '';
+				passElem.value = '';
+				confElem.value = '';
+				displayGames('login');
+			} else if(this.status === 409) {
+				alert('Username Already Taken');
+			} else {
+				alert('Uhhh something is wrong');
+			}
 		}
 	}
 	req.send('user=' + encodeURIComponent(userElem.value) + '&pass=' + encodeURIComponent(passElem.value));
@@ -119,12 +123,14 @@ function getGames() {
 	req.withCredentials = true;
 	req.open('GET', '/games', true);
 	req.onreadystatechange = function() {
-		if(this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-			displayGames('login');
-			//this.responseText
-		} else {
-			alert('Failed to authenticate');
-			displayLogin('games');
+		if(this.readyState === XMLHttpRequest.DONE) {
+			if(this.status === 200) {
+				displayGames('login');
+				//this.responseText
+			} else {
+				alert('Failed to authenticate');
+				displayLogin('games');
+			}
 		}
 	}
 }

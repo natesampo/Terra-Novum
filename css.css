@@ -1,0 +1,36 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+#login {
+	border: 1px solid black;
+	top: 10%;
+	width: 30%;
+	margin: auto;
+}
+
+.loginforms {
+	border: 2px solid black;
+	margin: 10px;
+}
+
+#accountdisplay {
+	margin: 20px;
+	display: none;
+}
+
+.accountbox {
+	border: 2px solid black;
+	margin: 10px;
+}
+
+#games{
+	display: none;
+}
+
+.gamesmenu {
+	border: 2px solid black;
+	margin: 10px;
+}

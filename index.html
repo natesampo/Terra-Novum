@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Terra Gloria</title>
+		<link rel="stylesheet" href="css.css"/>
+	</head>
+	<body id="body">
+		<div id="login">
+			<fieldset class="loginforms">
+				<legend>Login</legend>
+				<form action="#">
+					<label for="usernamelogin">Username:</label>
+					<input type="text" id="usernamelogin" name="usernamelogin" value=""><br><br>
+					<label for="password">Password:</label>
+					<input type="text" id="passwordlogin" name="passwordlogin" value=""><br><br>
+					<input type="button" value="Login" onClick="login()">
+				</form>
+			</fieldset>
+			<fieldset class="loginforms">
+				<legend>Register</legend>
+				<form action="#">
+					<label for="usernamereg">Username:</label>
+					<input type="text" id="usernamereg" name="usernamereg" value=""><br><br>
+					<label for="password">Password:</label>
+					<input type="text" id="passwordreg" name="passwordreg" value=""><br><br>
+					<label for="confirm">Confirm Password:</label>
+					<input type="text" id="confirmreg" name="confirmreg" value=""><br><br>
+					<input type="button" value="Register" onClick="register()">
+				</form>
+			</fieldset>
+		</div>
+		<div id="accountdisplay">
+			<fieldset class="accountbox">
+				<legend>Logged in as</legend>
+				<h3 id="accountname"></h3>
+			</fieldset>
+		</div>
+		<div id="games">
+			<fieldset class="gamesmenu">
+				<legend>Create Game</legend>
+				<input type="button" value="Create Game" onClick="createGame()">
+			</fieldset>
+			<fieldset class="gamesmenu">
+				<legend>My Games</legend>
+				<h3 id="nogames">Not In Any Games</h3>
+			</fieldset>
+			<fieldset class="gamesmenu">
+				<legend>Open Games</legend>
+				<h3 id="nogames">No Games Currently Open</h3>
+			</fieldset>
+		</div>
+		<script src="game.js"></script>
+	</body>
+</html>

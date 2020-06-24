@@ -1,0 +1,20 @@
+{
+  "name": "spacegame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Nate Sampo",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "https": "^1.0.0"
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}

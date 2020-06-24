@@ -109,6 +109,7 @@ http.createServer(function(request, response) {
 												response.writeHead(200, {'Content-Type': 'text/html',
 																		'Access-Control-Allow-Origin': 'herokuapp.com',
 																		'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + newCookie]});
+												console.log(response);
 												return response.end(html);
 											}
 											break;

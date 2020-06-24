@@ -94,8 +94,12 @@ http.createServer(function(request, response) {
 								let cookie = cookies['terranovumauth'];
 								getTable('users', function(data) {
 									let parsed = JSON.parse(data);
+									console.log('Parsed ' + parsed);
 									for(let i in parsed) {
 										if(name == parsed[i]['user']) {
+											console.log('Name ' + name);
+											console.log('Cookie ' + cookie);
+											console.log('Stored cookie ' + parsed[i]['cookie']);
 											if(cookie == parsed[i]['cookie']) {
 												const newCookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
 												parsed[i]['cookie'] = newCookie;
@@ -103,7 +107,6 @@ http.createServer(function(request, response) {
 												response.writeHead(200, {'Content-Type': 'text/html',
 																		'Access-Control-Allow-Origin': 'herokuapp.com',
 																		'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + newCookie]});
-												//response.write(html);
 												return response.end(html);
 											}
 											break;
@@ -113,7 +116,6 @@ http.createServer(function(request, response) {
 									response.writeHead(200, {'Content-Type': 'text/html',
 															'Access-Control-Allow-Origin': 'herokuapp.com',
 															'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
-									//response.write(html);
 									return response.end(html);
 								});
 							}
@@ -122,7 +124,6 @@ http.createServer(function(request, response) {
 						response.writeHead(200, {'Content-Type': 'text/html',
 												'Access-Control-Allow-Origin': 'herokuapp.com',
 												'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
-						//response.write(html);
 						return response.end(html);
 					});
 					break;
@@ -132,8 +133,7 @@ http.createServer(function(request, response) {
 							console.log(err);
 						}
 						response.writeHeader(200, {'Content-Type': 'text/css'});
-						response.write(data);
-						return response.end();
+						return response.end(data);
 					})
 					break;
 				case '/game.js':
@@ -142,8 +142,7 @@ http.createServer(function(request, response) {
 							console.log(err);
 						}
 						response.writeHeader(200, {'Content-Type': 'text/js'});
-						response.write(data);
-						return response.end();
+						return response.end(data);
 					})
 					break;
 				case '/games':

@@ -89,17 +89,19 @@ http.createServer(function(request, response) {
 							let cookies = getCookies(request.headers.cookie);
 
 							if(cookies['terranovumusername'] && cookies['terranovumauth']) {
+								let name = cookies['terranovumusername'];
+								let cookie = cookies['terranovumauth'];
 								getTable('users', function(data) {
 									let parsed = JSON.parse(data);
 									for(let i in parsed) {
-										if(cookies['terranovumusername'] == parsed[i]['user']) {
-											if(cookies['terranovumauth'] == parsed[i]['cookie']) {
-												const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
-												parsed[i]['cookie'] = cookie;
+										if(name == parsed[i]['user']) {
+											if(cookie == parsed[i]['cookie']) {
+												const newCookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
+												parsed[i]['cookie'] = newCookie;
 												saveTable('users', JSON.stringify(parsed), function() {});
 												response.writeHead(200, {'Content-Type': 'text/html',
 																		'Access-Control-Allow-Origin': 'herokuapp.com',
-																		'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
+																		'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + newCookie]});
 												return response.end();
 											}
 											break;

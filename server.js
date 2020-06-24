@@ -110,7 +110,7 @@ http.createServer(function(request, response) {
 										}
 									}
 
-									response.writeHead(200, {'Content-Type': 'text/html',
+									response.writeHead(404, {'Content-Type': 'text/html',
 															'Access-Control-Allow-Origin': 'herokuapp.com',
 															'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
 									return response.end(html);

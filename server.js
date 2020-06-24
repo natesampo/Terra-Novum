@@ -52,6 +52,7 @@ function saveTable(table, data, func) {
 }
 
 http.createServer((request, response) => {
+	let body = '';
 	switch(request.method) {
 		case 'GET':
 			switch(request.url) {
@@ -97,7 +98,6 @@ http.createServer((request, response) => {
 		case 'POST':
 			switch(request.url) {
 				case '/login':
-					let body = '';
 					request.on('error', function(err) {
 						console.log(err);
 						response.statusCode = 400;
@@ -137,7 +137,6 @@ http.createServer((request, response) => {
 					});
 					break;
 				case '/register':
-					let body = '';
 					request.on('error', function(err) {
 						console.log(err);
 						response.statusCode = 400;

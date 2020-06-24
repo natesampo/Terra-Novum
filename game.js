@@ -46,7 +46,6 @@ function login() {
 	req.withCredentials = true;
 	req.open('POST', '/login', true);
 	req.onreadystatechange = function() {
-		console.log(this.readyState);
 		if(this.readyState === XMLHttpRequest.DONE) {
 			if(this.status === 200) {
 				userElem.value = '';

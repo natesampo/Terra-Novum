@@ -30,7 +30,7 @@ function displayLogin(idToHide) {
 function displayGames(idToHide) {
 	document.getElementById(idToHide).style.display = 'none';
 	document.getElementById('accountdisplay').style.display = 'inline-block';
-	document.getElementById('accountname').innerHTML = decodeURIComponent(getCookie('username'));
+	document.getElementById('accountname').innerHTML = decodeURIComponent(getCookie('terranovumusername'));
 	document.getElementById('games').style.display = 'block';
 	document.getElementById('games').style.border = '1px solid black';
 	document.getElementById('games').style.margin = '0 auto';
@@ -46,11 +46,11 @@ function login() {
 	req.withCredentials = true;
 	req.open('POST', '/login', true);
 	req.onreadystatechange = function() {
+		console.log(this.readyState);
 		if(this.readyState === XMLHttpRequest.DONE) {
 			if(this.status === 200) {
 				userElem.value = '';
 				passElem.value = '';
-				confElem.value = '';
 				displayGames('login');
 			} else if(this.status === 401) {
 				alert('Incorrect username or password');

@@ -123,7 +123,7 @@ http.createServer((request, response) => {
 										saveTable('users', JSON.stringify(parsed), function() {
 											response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
 																	'Access-Control-Allow-Origin': 'herokuapp.com',
-																	'Set-Cookie': ['username=' + name, 'terranovumauth=' + cookie]});
+																	'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
 											response.end();
 										});
 									} else {
@@ -170,7 +170,7 @@ http.createServer((request, response) => {
 								saveTable('users', JSON.stringify(parsed), function() {
 									response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
 															'Access-Control-Allow-Origin': 'herokuapp.com',
-															'Set-Cookie': ['username=' + name, 'terranovumauth=' + cookie]});
+															'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + cookie]});
 									response.end();
 								});
 							}

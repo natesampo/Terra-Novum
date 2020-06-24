@@ -16,13 +16,11 @@ function getTable(table, func) {
 
 	const req = https.request(options, function(response) {
 		if(response.statusCode === 200) {
-			func();
 			let data = '';
 			response.on('data', function(chunk) {
 				data += chunk;
 			});
 			response.on('end', function() {
-				console.log(data);
 				func(data);
 			});
 		} else {

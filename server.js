@@ -97,6 +97,7 @@ http.createServer(function(request, response) {
 									for(let i in parsed) {
 										if(name == parsed[i]['user']) {
 											if(cookie == parsed[i]['cookie']) {
+												console.log('WHYYYYYYYY');
 												const newCookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
 												parsed[i]['cookie'] = newCookie;
 												saveTable('users', JSON.stringify(parsed), function() {});

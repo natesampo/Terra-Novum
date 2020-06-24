@@ -86,6 +86,7 @@ http.createServer(function(request, response) {
 						}
 
 						html = data;
+						console.log(request.header.cookie);
 						if(request.headers.cookie && request.headers.cookie.length > 0) {
 							let cookies = getCookies(request.headers.cookie);
 

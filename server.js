@@ -112,6 +112,7 @@ http.createServer((request, response) => {
 					});
 					request.on('end', function() {
 						getTable('users', function(data) {
+							console.log('wow');
 							let parsed = JSON.parse(data);
 							const name = body.split('&')[0].split('=')[1];
 							let found = false;

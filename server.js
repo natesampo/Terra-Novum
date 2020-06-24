@@ -9,9 +9,7 @@ function getTable(table, func) {
 		'host': 'content.dropboxapi.com',
 		'path': '/2/files/download',
 		'method': 'GET',
-		'headers': {'Content-Type': 'application/octet-stream',
-					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/spacegame/' + table + '\"}'}
+		'headers': {'Content-Type': 'application/octet-stream', 'Authorization': 'Bearer ' + accessToken + 'G', 'Dropbox-API-Arg': '{\"path\": \"/spacegame/' + table + '\"}'}
 	};
 
 	const req = https.request(options, function(response) {
@@ -36,9 +34,7 @@ function saveTable(table, data, func) {
 		'host': 'content.dropboxapi.com',
 		'path': '/2/files/upload',
 		'method': 'POST',
-		'headers': {'Content-Type': 'application/octet-stream',
-					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/spacegame/' + table + '\"}'}
+		'headers': {'Content-Type': 'application/octet-stream', 'Authorization': 'Bearer ' + accessToken + 'G', 'Dropbox-API-Arg': '{\"path\": \"/spacegame/' + table + '\"}'}
 	};
 
 	const req = https.request(options, function(response) {
@@ -130,9 +126,7 @@ http.createServer((request, response) => {
 								const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
 								parsed.push({'user': name, 'pass': body.split('&')[1].split('=')[1], 'games': [], 'cookie': cookie});
 								saveTable('users', JSON.stringify(parsed), function() {
-									response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
-															'Access-Control-Allow-Origin': 'spacegametwo.herokuapp.com',
-															'Set-Cookie': ['username=' + name, 'spacegameauth=' + cookie]});
+									response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8', 'Access-Control-Allow-Origin': 'spacegametwo.herokuapp.com', 'Set-Cookie': ['username=' + name, 'spacegameauth=' + cookie]});
 									response.end();
 								});
 							}

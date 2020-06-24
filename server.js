@@ -5,21 +5,13 @@ const https = require('https');
 const accessToken = '2MMTqs9tilAAAAAAAAAAT12blR8o5M-X26TeYbExYdkM8BT1LxvdUa1y9Tj67Sy';
 
 function getTable(table, func) {
-	/*const options = {
+	const options = {
 		'host': 'content.dropboxapi.com',
 		'path': '/2/files/download',
 		'method': 'GET',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/spacegame/' + table + '\"}'}
-	};*/
-	const options = {
-		'host': 'content.dropboxapi.com',
-		'path': '/2/files/list_folder',
-		'method': 'GET',
-		'headers': {'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/\",\"recursive\": false,\"include_media_info\": false,\"include_deleted\": false,\"include_has_explicit_shared_members\": false,\"include_mounted_folders\": true,\"include_non_downloadable_files\": true\}'}
+					'Dropbox-API-Arg': '{\"path\": \"' + table + '\"}'}
 	};
 
 	const req = https.request(options, function(response) {

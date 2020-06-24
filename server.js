@@ -112,7 +112,7 @@ http.createServer((request, response) => {
 					});
 					request.on('end', function() {
 						getTable('users', function(data) {
-							const parsed = JSON.parse(data);
+							let parsed = JSON.parse(data);
 							const name = body.split('&')[0].split('=')[1];
 							let found = false;
 							for(let i in parsed) {
@@ -126,11 +126,12 @@ http.createServer((request, response) => {
 								response.statusCode = 409;
 								response.end();
 							} else {
-								saveTable('users', JSON.stringify([{'user': 'N4tticus', 'pass': 'asdf', 'games': []}]), function() {
-									const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
+								const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
+								parsed.push({'user': name, 'pass': body.split('&')[1].split('=')[1], 'games': [], 'cookie': cookie});
+								saveTable('users', JSON.stringify(parsed), function() {
 									response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
 															'Access-Control-Allow-Origin': 'spacegametwo.herokuapp.com',
-															'Set-Cookie': ['username=Nate', 'spacegameauth=' + cookie]});
+															'Set-Cookie': ['username=' + name, 'spacegameauth=' + cookie]});
 									response.end();
 								});
 							}

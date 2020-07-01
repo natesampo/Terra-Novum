@@ -85,7 +85,7 @@ http.createServer(function(request, response) {
 						if(err) {
 							console.log(err);
 						}
-						response.writeHeader(200, {'Content-Type': 'text/js'});
+						response.writeHeader(200, {'Content-Type': 'text/html'});
 						return response.end(data);
 					});
 					break;

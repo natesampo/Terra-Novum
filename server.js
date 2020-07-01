@@ -87,6 +87,7 @@ http.createServer(function(request, response) {
 						}
 						response.writeHeader(200, {'Content-Type': 'text/js'});
 						return response.end(data);
+					});
 					break;
 				case '/css.css':
 					fs.readFile('css.css', function(err, data) {
@@ -95,7 +96,7 @@ http.createServer(function(request, response) {
 						}
 						response.writeHeader(200, {'Content-Type': 'text/css'});
 						return response.end(data);
-					})
+					});
 					break;
 				case '/game.js':
 					fs.readFile('game.js', function(err, data) {
@@ -104,7 +105,7 @@ http.createServer(function(request, response) {
 						}
 						response.writeHeader(200, {'Content-Type': 'text/js'});
 						return response.end(data);
-					})
+					});
 					break;
 				case '/games':
 					break;

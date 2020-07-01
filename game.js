@@ -138,6 +138,8 @@ if(document.cookie.length > 0) {
 		if(this.readyState === XMLHttpRequest.DONE) {
 			if(this.status === 204) {
 				displayGames('login');
+			} else {
+				displayLogin('games');
 			}
 		}
 	}

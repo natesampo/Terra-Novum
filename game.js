@@ -23,6 +23,7 @@ function displayVerify(idToHide) {
 	document.getElementById('verify').style['text-align'] = 'center';
 	document.getElementById('verify').style.top = '50%';
 	document.getElementById('verify').style.width = '100%';
+	document.getElementById('verify').style.display = 'inline';
 }
 
 function displayLogin(idToHide) {

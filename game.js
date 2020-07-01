@@ -12,11 +12,26 @@ function getCookies() {
 	return cookies;
 }
 
+function displayVerify(idToHide) {
+	if(idToHide) {
+		document.getElementById(idToHide).style.display = 'none';
+	}
+	document.getElementById('verify').style.left = '0';
+	document.getElementById('verify').style.['line-height'] = '200px';
+	document.getElementById('verify').style.['margin-top'] = '-100px';
+	document.getElementById('verify').style.position = 'absolute';
+	document.getElementById('verify').style.['text-align'] = 'center';
+	document.getElementById('verify').style.top = '50%';
+	document.getElementById('verify').style.width = '100%';
+}
+
 function displayLogin(idToHide) {
+	if(idToHide) {
+		document.getElementById(idToHide).style.display = 'none';
+	}
 	document.getElementById('login').style.display = 'block';
 	document.getElementById('accountdisplay').style.display = 'none';
 	document.getElementById('accountname').innerHTML = '';
-	document.getElementById(idToHide).style.display = 'none';
 	document.getElementById('login').style.border = '1px solid black';
 	document.getElementById('login').style.margin = '0 auto';
 	document.getElementById('login').style['margin-top'] = '10%';
@@ -24,7 +39,9 @@ function displayLogin(idToHide) {
 }
 
 function displayGames(idToHide) {
-	document.getElementById(idToHide).style.display = 'none';
+	if(idToHide) {
+		document.getElementById(idToHide).style.display = 'none';
+	}
 	document.getElementById('accountdisplay').style.display = 'inline-block';
 	document.getElementById('accountname').innerHTML = getCookies()['terranovumusername'];
 	document.getElementById('games').style.display = 'block';
@@ -109,7 +126,7 @@ function register() {
 
 function getGames() {
 	if(document.cookie.length == 0) {
-		displayLogin('games');
+		displayLogin();
 
 		return;
 	}
@@ -124,13 +141,14 @@ function getGames() {
 				//this.responseText
 			} else {
 				alert('Failed to authenticate');
-				displayLogin('games');
+				displayLogin();
 			}
 		}
 	}
 }
 
 if(document.cookie.length > 0) {
+	displayVerify();
 	const req = new XMLHttpRequest();
 	req.withCredentials = true;
 	req.open('GET', '/auth', true);
@@ -145,5 +163,5 @@ if(document.cookie.length > 0) {
 	}
 	req.send();
 } else {
-	displayLogin('verify');
+	displayLogin();
 }

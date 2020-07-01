@@ -17,10 +17,10 @@ function displayVerify(idToHide) {
 		document.getElementById(idToHide).style.display = 'none';
 	}
 	document.getElementById('verify').style.left = '0';
-	document.getElementById('verify').style.['line-height'] = '200px';
-	document.getElementById('verify').style.['margin-top'] = '-100px';
+	document.getElementById('verify').style['line-height'] = '200px';
+	document.getElementById('verify').style['margin-top'] = '-100px';
 	document.getElementById('verify').style.position = 'absolute';
-	document.getElementById('verify').style.['text-align'] = 'center';
+	document.getElementById('verify').style['text-align'] = 'center';
 	document.getElementById('verify').style.top = '50%';
 	document.getElementById('verify').style.width = '100%';
 }

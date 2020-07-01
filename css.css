@@ -5,9 +5,9 @@
 }
 
 #verify {
-	display: block;
-	margin: 0 auto;
+	display: inline-block;
 	margin-top: 30%;
+	text-align: center;
 }
 
 #login {

@@ -130,6 +130,16 @@ function getGames() {
 	}
 }
 
-if() {
-	
+if(document.cookie.length > 0) {
+	const req = new XMLHttpRequest();
+	req.withCredentials = true;
+	req.open('GET', '/auth', true);
+	req.onreadystatechange = function() {
+		if(this.readyState === XMLHttpRequest.DONE) {
+			if(this.status === 204) {
+				displayGames('login');
+			}
+		}
+	}
+	req.send();
 }

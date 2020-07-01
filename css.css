@@ -4,12 +4,14 @@
 	padding: 0;
 }
 
-#login {
+#verify {
 	display: block;
-	border: 1px solid black;
 	margin: 0 auto;
-	margin-top: 10%;
-	width: 30%;
+	margin-top: 30%;
+}
+
+#login {
+	display: none;
 }
 
 .loginforms {

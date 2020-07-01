@@ -137,11 +137,13 @@ if(document.cookie.length > 0) {
 	req.onreadystatechange = function() {
 		if(this.readyState === XMLHttpRequest.DONE) {
 			if(this.status === 204) {
-				displayGames('login');
+				displayGames('verify');
 			} else {
-				displayLogin('games');
+				displayLogin('verify');
 			}
 		}
 	}
 	req.send();
+} else {
+	displayLogin('verify');
 }

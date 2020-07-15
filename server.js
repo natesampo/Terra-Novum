@@ -11,7 +11,7 @@ function getTable(table, func) {
 		'method': 'GET',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"' + table + '\"}'}
+					'Dropbox-API-Arg': '{\"path\": \"/tables/' + table + '\"}'}
 	};
 
 	const req = https.request(options, function(response) {
@@ -37,7 +37,7 @@ function saveTable(table, data, func) {
 		'method': 'POST',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"' + table + '\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false\}'}
+					'Dropbox-API-Arg': '{\"path\": \"/tables/' + table + '\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false\}'}
 	};
 
 	const req = https.request(options, function(response) {

@@ -5,15 +5,19 @@ function getCookies() {
 	let cookies = {};
 
 	document.cookie.split(';').forEach(function(cookie) {
-		var parts = cookie.split('=');
-		cookies[parts.shift().trim()] = decodeURIComponent(parts.join('='));
+		let parts = cookie.split('=');
+		let formatted = parts.shift().trim();
+
+		if (formatted.startsWith('terranovum')) {
+			cookies[formatted] = decodeURIComponent(parts.join('='));
+		}
 	});
 
 	return cookies;
 }
 
 function displayVerify(idToHide) {
-	if(idToHide) {
+	if (idToHide) {
 		document.getElementById(idToHide).style.display = 'none';
 	}
 	document.getElementById('verify').style.left = '0';
@@ -27,7 +31,7 @@ function displayVerify(idToHide) {
 }
 
 function displayLogin(idToHide) {
-	if(idToHide) {
+	if (idToHide) {
 		document.getElementById(idToHide).style.display = 'none';
 	}
 	document.getElementById('login').style.display = 'block';
@@ -40,7 +44,7 @@ function displayLogin(idToHide) {
 }
 
 function displayGames(idToHide) {
-	if(idToHide) {
+	if (idToHide) {
 		document.getElementById(idToHide).style.display = 'none';
 	}
 	document.getElementById('accountdisplay').style.display = 'inline-block';
@@ -60,12 +64,12 @@ function login() {
 	req.withCredentials = true;
 	req.open('POST', '/login', true);
 	req.onreadystatechange = function() {
-		if(this.readyState === XMLHttpRequest.DONE) {
-			if(this.status === 200) {
+		if (this.readyState === XMLHttpRequest.DONE) {
+			if (this.status === 200) {
 				userElem.value = '';
 				passElem.value = '';
 				displayGames('login');
-			} else if(this.status === 401) {
+			} else if (this.status === 401) {
 				alert('Incorrect username or password');
 			} else {
 				alert('Uhhh something is wrong');
@@ -75,32 +79,39 @@ function login() {
 	req.send('user=' + encodeURIComponent(userElem.value) + '&pass=' + encodeURIComponent(passElem.value));
 }
 
+function logout() {
+	const req = new XMLHttpRequest();
+	req.withCredentials = true;
+	req.open('GET', '/logout', true);
+	req.send();
+}
+
 function register() {
 	const userElem = document.getElementById('usernamereg');
 	const passElem = document.getElementById('passwordreg');
 	const confElem = document.getElementById('confirmreg');
 
-	if(userElem.value.length > usernameMaxLength) {
+	if (userElem.value.length > usernameMaxLength) {
 		alert('Username is too long');
 		return;
 	}
 
-	if(userElem.value.length == 0) {
+	if (userElem.value.length == 0) {
 		alert('Username cannot be empty');
 		return;
 	}
 
-	if(passElem.value != confElem.value) {
+	if (passElem.value != confElem.value) {
 		alert('Two different passwords entered');
 		return;
 	}
 
-	if(passElem.value.length > passwordMaxLength) {
+	if (passElem.value.length > passwordMaxLength) {
 		alert('Password too long');
 		return;
 	}
 
-	if(passElem.value.length == 0) {
+	if (passElem.value.length == 0) {
 		alert('Password cannot be empty');
 		return;
 	}
@@ -109,13 +120,13 @@ function register() {
 	req.withCredentials = true;
 	req.open('POST', '/register', true);
 	req.onreadystatechange = function() {
-		if(this.readyState === XMLHttpRequest.DONE) {
-			if(this.status === 200) {
+		if (this.readyState === XMLHttpRequest.DONE) {
+			if (this.status === 200) {
 				userElem.value = '';
 				passElem.value = '';
 				confElem.value = '';
 				displayGames('login');
-			} else if(this.status === 409) {
+			} else if (this.status === 409) {
 				alert('Username Already Taken');
 			} else {
 				alert('Uhhh something is wrong');
@@ -126,7 +137,7 @@ function register() {
 }
 
 function getGames() {
-	if(document.cookie.length == 0) {
+	if (document.cookie.length == 0) {
 		displayLogin();
 
 		return;
@@ -136,8 +147,8 @@ function getGames() {
 	req.withCredentials = true;
 	req.open('GET', '/games', true);
 	req.onreadystatechange = function() {
-		if(this.readyState === XMLHttpRequest.DONE) {
-			if(this.status === 200) {
+		if (this.readyState === XMLHttpRequest.DONE) {
+			if (this.status === 200) {
 				displayGames('login');
 				//this.responseText
 			} else {
@@ -148,14 +159,14 @@ function getGames() {
 	}
 }
 
-if(document.cookie.length > 0) {
+if (document.cookie.length > 0) {
 	displayVerify();
 	const req = new XMLHttpRequest();
 	req.withCredentials = true;
 	req.open('GET', '/auth', true);
 	req.onreadystatechange = function() {
-		if(this.readyState === XMLHttpRequest.DONE) {
-			if(this.status === 204) {
+		if (this.readyState === XMLHttpRequest.DONE) {
+			if (this.status === 204) {
 				displayGames('verify');
 			} else {
 				displayLogin('verify');

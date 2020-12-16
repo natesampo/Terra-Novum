@@ -147,6 +147,11 @@ http.createServer(function(request, response) {
 						return response.end();
 					}
 					break;
+				case '/logout':
+					response.writeHead(204, {'Access-Control-Allow-Origin': 'herokuapp.com',
+											'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
+					return response.end();
+					break;
 				default:
 					response.statusCode = 404;
 					return response.end();

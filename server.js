@@ -135,7 +135,7 @@ http.createServer(function(request, response) {
 								}
 
 								response.writeHead(401, {'Access-Control-Allow-Origin': 'herokuapp.com',
-														'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
+														'Set-Cookie': ['terranovumusername=;expires=Thu, 01 Jan 1970 00:00:01 GMT', 'terranovumauth=;expires=Thu, 01 Jan 1970 00:00:01 GMT']});
 								return response.end();
 							});
 						}
@@ -143,13 +143,13 @@ http.createServer(function(request, response) {
 
 					if(!sent) {
 						response.writeHead(401, {'Access-Control-Allow-Origin': 'herokuapp.com',
-												'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
+												'Set-Cookie': ['terranovumusername=;expires=Thu, 01 Jan 1970 00:00:01 GMT', 'terranovumauth=;expires=Thu, 01 Jan 1970 00:00:01 GMT']});
 						return response.end();
 					}
 					break;
 				case '/logout':
 					response.writeHead(204, {'Access-Control-Allow-Origin': 'herokuapp.com',
-											'Set-Cookie': ['terranovumusername=', 'terranovumauth=']});
+											'Set-Cookie': ['terranovumusername=;expires=Thu, 01 Jan 1970 00:00:01 GMT', 'terranovumauth=;expires=Thu, 01 Jan 1970 00:00:01 GMT']});
 					return response.end();
 					break;
 				default:

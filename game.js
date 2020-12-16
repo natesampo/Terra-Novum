@@ -83,6 +83,15 @@ function logout() {
 	const req = new XMLHttpRequest();
 	req.withCredentials = true;
 	req.open('GET', '/logout', true);
+	req.onreadystatechange = function() {
+		if (this.readyState === XMLHttpRequest.DONE) {
+			if (this.status === 204) {
+				displayLogin('games');
+			} else {
+				alert('Uhhh something is wrong');
+			}
+		}
+	}
 	req.send();
 }
 

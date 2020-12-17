@@ -152,7 +152,7 @@ function register() {
 			}
 		}
 	}
-	req.send('user=' + encodeURIComponent(userElem.value) + '&pass=' + encodeURIComponent(passElem.value));
+	req.send('user=' + encodeURIComponent(userRegElem.value) + '&pass=' + encodeURIComponent(passRegElem.value));
 }
 
 function getGames() {

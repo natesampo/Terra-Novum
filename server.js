@@ -8,7 +8,7 @@ function getTable(table, func) {
 	const options = {
 		'host': 'content.dropboxapi.com',
 		'path': '/2/files/download',
-		'method': 'GET',
+		'method': 'POST',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
 					'Dropbox-API-Arg': '{\"path\": \"/tables/' + table + '\"}'}
@@ -37,7 +37,7 @@ function saveTable(table, data, func) {
 		'method': 'POST',
 		'headers': {'Content-Type': 'application/octet-stream',
 					'Authorization': 'Bearer ' + accessToken + 'G',
-					'Dropbox-API-Arg': '{\"path\": \"/tables/' + table + '\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false\}'}
+					'Dropbox-API-Arg': '{\"path\": \"/tables/' + table + '\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false}'}
 	};
 
 	const req = https.request(options, function(response) {
@@ -49,6 +49,84 @@ function saveTable(table, data, func) {
 	});
 	req.write(data);
 	req.end();
+}
+
+function getNewGameNumber(func) {
+	const options = {
+		'host': 'api.dropboxapi.com',
+		'path': '/2/files/list_folder',
+		'method': 'POST',
+		'headers': {'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + accessToken + 'G'}
+	};
+
+	const req = https.request(options, function(response) {
+		if(response.statusCode === 200) {
+			let data = '';
+			response.on('data', function(chunk) {
+				data += chunk;
+			});
+			response.on('end', function() {
+				data = JSON.parse(data);
+				let max = 0;
+				for (let i in data['entries']) {
+					const temp = parseInt(data['entries'][i]['name']);
+					if (temp > max) {
+						max = temp;
+					}
+				}
+
+				func(max + 1);
+			});
+		} else {
+			console.log('Dropbox request failed with status: ' + response.statusCode);
+		}
+	});
+	req.write('{\"path\": \"/games/\",\"include_media_info\":false,\"include_deleted\":false}');
+	req.end();
+}
+
+function writeClearCookieHeader(response, statusCode) {
+	response.writeHead(statusCode, {'Access-Control-Allow-Origin': 'herokuapp.com',
+									'Set-Cookie': ['terranovumusername=;expires=Thu, 01 Jan 1970 00:00:01 GMT', 'terranovumauth=;expires=Thu, 01 Jan 1970 00:00:01 GMT']});
+}
+
+function authenticateWithCookies(request, response, func) {
+	let sent = false;
+	if(request.headers.cookie && request.headers.cookie.length > 0) {
+		const cookies = getCookies(request.headers.cookie);
+
+		if(cookies['terranovumusername'] && cookies['terranovumusername'].length > 0 && cookies['terranovumauth'] && cookies['terranovumauth'].length > 0) {
+			const name = cookies['terranovumusername'];
+			const cookie = cookies['terranovumauth'];
+			sent = true;
+			getTable('users', function(data) {
+				let parsed = JSON.parse(data);
+				for(let i in parsed) {
+					if(name == parsed[i]['user']) {
+						if(cookie == parsed[i]['cookie']) {
+							response.writeHead(200, {'Access-Control-Allow-Origin': 'herokuapp.com'});
+							func();
+							return;
+						}
+						break;
+					}
+				}
+
+				writeClearCookieHeader(response, 401);
+				return response.end();
+			});
+		}
+	}
+
+	if(!sent) {
+		writeClearCookieHeader(response, 401);
+		return response.end();
+	}
+}
+
+function createAuthBinaryString() {
+	return Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
 }
 
 function getCookies(req) {
@@ -109,47 +187,20 @@ http.createServer(function(request, response) {
 					break;
 				case '/games':
 					break;
+				case '/createGame':
+					authenticateWithCookies(request, response, function() {
+						getNewGameNumber(function(data) {
+							return response.end(data.toString());
+						});
+					});
+					break;
 				case '/auth':
-					let sent = false;
-					if(request.headers.cookie && request.headers.cookie.length > 0) {
-						const cookies = getCookies(request.headers.cookie);
-
-						if(cookies['terranovumusername'] && cookies['terranovumusername'].length > 0 && cookies['terranovumauth'] && cookies['terranovumauth'].length > 0) {
-							const name = cookies['terranovumusername'];
-							const cookie = cookies['terranovumauth'];
-							sent = true;
-							getTable('users', function(data) {
-								let parsed = JSON.parse(data);
-								for(let i in parsed) {
-									if(name == parsed[i]['user']) {
-										if(cookie == parsed[i]['cookie']) {
-											const newCookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
-											parsed[i]['cookie'] = newCookie;
-											saveTable('users', JSON.stringify(parsed), function() {});
-											response.writeHead(204, {'Access-Control-Allow-Origin': 'herokuapp.com',
-																	'Set-Cookie': ['terranovumusername=' + name, 'terranovumauth=' + newCookie]});
-											return response.end();
-										}
-										break;
-									}
-								}
-
-								response.writeHead(401, {'Access-Control-Allow-Origin': 'herokuapp.com',
-														'Set-Cookie': ['terranovumusername=;expires=Thu, 01 Jan 1970 00:00:01 GMT', 'terranovumauth=;expires=Thu, 01 Jan 1970 00:00:01 GMT']});
-								return response.end();
-							});
-						}
-					}
-
-					if(!sent) {
-						response.writeHead(401, {'Access-Control-Allow-Origin': 'herokuapp.com',
-												'Set-Cookie': ['terranovumusername=;expires=Thu, 01 Jan 1970 00:00:01 GMT', 'terranovumauth=;expires=Thu, 01 Jan 1970 00:00:01 GMT']});
+					authenticateWithCookies(request, response, function() {
 						return response.end();
-					}
+					});
 					break;
 				case '/logout':
-					response.writeHead(204, {'Access-Control-Allow-Origin': 'herokuapp.com',
-											'Set-Cookie': ['terranovumusername=;expires=Thu, 01 Jan 1970 00:00:01 GMT', 'terranovumauth=;expires=Thu, 01 Jan 1970 00:00:01 GMT']});
+					writeClearCookieHeader(response, 200);
 					return response.end();
 					break;
 				default:
@@ -182,7 +233,7 @@ http.createServer(function(request, response) {
 								for(let i in parsed) {
 									if(name == parsed[i]['user']) {
 										if(pass == parsed[i]['pass']) {
-											const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
+											const cookie = createAuthBinaryString();
 											parsed[i]['cookie'] = cookie;
 											saveTable('users', JSON.stringify(parsed), function() {});
 											response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',
@@ -229,7 +280,7 @@ http.createServer(function(request, response) {
 									}
 								}
 
-								const cookie = Math.floor(Math.random()*Math.pow(2, 31)).toString(2);
+								const cookie = createAuthBinaryString();
 								parsed.push({'user': name, 'pass': pass, 'games': [], 'cookie': cookie});
 								saveTable('users', JSON.stringify(parsed), function() {});
 								response.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8',

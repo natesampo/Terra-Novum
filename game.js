@@ -59,6 +59,9 @@ function displayGames(idToHide) {
 function login() {
 	const userElem = document.getElementById('usernamelogin');
 	const passElem = document.getElementById('passwordlogin');
+	const userRegElem = document.getElementById('usernamereg');
+	const passRegElem = document.getElementById('passwordreg');
+	const confirmRegElem = document.getElementById('confirmreg');
 
 	const req = new XMLHttpRequest();
 	req.withCredentials = true;
@@ -68,6 +71,9 @@ function login() {
 			if (this.status === 200) {
 				userElem.value = '';
 				passElem.value = '';
+				userRegElem.value = '';
+				passRegElem.value = '';
+				confirmRegElem.value = '';
 				displayGames('login');
 			} else if (this.status === 401) {
 				alert('Incorrect username or password');
@@ -85,7 +91,7 @@ function logout() {
 	req.open('GET', '/logout', true);
 	req.onreadystatechange = function() {
 		if (this.readyState === XMLHttpRequest.DONE) {
-			if (this.status === 204) {
+			if (this.status === 200) {
 				displayLogin('games');
 			} else {
 				alert('Uhhh something is wrong');
@@ -96,31 +102,33 @@ function logout() {
 }
 
 function register() {
-	const userElem = document.getElementById('usernamereg');
-	const passElem = document.getElementById('passwordreg');
-	const confElem = document.getElementById('confirmreg');
+	const userElem = document.getElementById('usernamelogin');
+	const passElem = document.getElementById('passwordlogin');
+	const userRegElem = document.getElementById('usernamereg');
+	const passRegElem = document.getElementById('passwordreg');
+	const confirmRegElem = document.getElementById('confirmreg');
 
-	if (userElem.value.length > usernameMaxLength) {
+	if (userRegElem.value.length > usernameMaxLength) {
 		alert('Username is too long');
 		return;
 	}
 
-	if (userElem.value.length == 0) {
+	if (userRegElem.value.length == 0) {
 		alert('Username cannot be empty');
 		return;
 	}
 
-	if (passElem.value != confElem.value) {
+	if (passRegElem.value != confirmRegElem.value) {
 		alert('Two different passwords entered');
 		return;
 	}
 
-	if (passElem.value.length > passwordMaxLength) {
+	if (passRegElem.value.length > passwordMaxLength) {
 		alert('Password too long');
 		return;
 	}
 
-	if (passElem.value.length == 0) {
+	if (passRegElem.value.length == 0) {
 		alert('Password cannot be empty');
 		return;
 	}
@@ -133,7 +141,9 @@ function register() {
 			if (this.status === 200) {
 				userElem.value = '';
 				passElem.value = '';
-				confElem.value = '';
+				userRegElem.value = '';
+				passRegElem.value = '';
+				confirmRegElem.value = '';
 				displayGames('login');
 			} else if (this.status === 409) {
 				alert('Username Already Taken');
@@ -166,6 +176,31 @@ function getGames() {
 			}
 		}
 	}
+	req.send();
+}
+
+function createGame() {
+	if (document.cookie.length == 0) {
+		displayLogin();
+
+		return;
+	}
+
+	const req = new XMLHttpRequest();
+	req.withCredentials = true;
+	req.open('GET', '/createGame', true);
+	req.onreadystatechange = function() {
+		if (this.readyState === XMLHttpRequest.DONE) {
+			if (this.status === 200) {
+				alert('Fuck you pussy boy');
+				//window.location.href = window.location.href + this.response + '.html';
+			} else {
+				displayLogin('games');
+				alert('Unable to authenticate');
+			}
+		}
+	}
+	req.send();
 }
 
 if (document.cookie.length > 0) {
@@ -175,7 +210,7 @@ if (document.cookie.length > 0) {
 	req.open('GET', '/auth', true);
 	req.onreadystatechange = function() {
 		if (this.readyState === XMLHttpRequest.DONE) {
-			if (this.status === 204) {
+			if (this.status === 200) {
 				displayGames('verify');
 			} else {
 				displayLogin('verify');
